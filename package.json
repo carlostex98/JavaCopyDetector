@@ -1,0 +1,14 @@
+{
+  "name": "py2jav",
+  "version": "1.0.0",
+  "description": "a java copy detector",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "carlos tenes",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
