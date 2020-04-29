@@ -1,4 +1,5 @@
 var Parser = require('jison').Parser;
+var fs = require('fs');
 let t=[];
 let something="";
 
@@ -25,7 +26,11 @@ var parserSource = parser.generate();
 function parse_start(){
     
     var z=parser.parse("adfe34bc e82a");
-    console.log(parserSource);
+    //console.log(parserSource);
+    fs.writeFile('./jison_gen.js', parserSource, function (err) {
+        if (err) throw err;
+        //console.log('Saved!');
+    }); 
 }
 
 
