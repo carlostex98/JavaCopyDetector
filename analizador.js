@@ -1,6 +1,7 @@
 var Parser = require('jison').Parser;
-
+let t=[];
 let something="";
+
 
 var grammar = {
     "lex": {
@@ -20,8 +21,11 @@ var grammar = {
 var parser = new Parser(grammar);
 var parserSource = parser.generate();
 
+
 function parse_start(){
-    parser.parse("adfe34bc e82a");
+    
+    var z=parser.parse("adfe34bc e82a");
+    console.log(parserSource);
 }
 
 
