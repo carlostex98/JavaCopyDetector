@@ -30,6 +30,7 @@ function parse_start(){
     fs.writeFile('./jison_gen.js', parserSource, function (err) {
         if (err) throw err;
         //console.log('Saved!');
+        //
     }); 
 }
 

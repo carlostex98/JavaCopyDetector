@@ -1,0 +1,5 @@
+const TIPO_VAL = {
+	NUMERO:         'V_NUMERO',
+	IDENTIFICADOR:  'V_IDENTIFICADOR',
+	CADENA:         'V_CADENA',
+}
