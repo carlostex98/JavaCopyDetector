@@ -150,6 +150,9 @@ otro_asig
     : PAR_A params2 PAR_C{}
     | IGUAL asignacion{}
 ;
+params2
+    :
+;
 
 typo_var
     : INT       {$$=$1}

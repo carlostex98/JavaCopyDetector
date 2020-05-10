@@ -85,9 +85,10 @@ const instruccionesAPI = {
 		return nuevaOpr(operando, undefined, tipo);
 	},
 
-	nuevoVal: function (valor, tipo) {
+	nuevoVal: function (tipo, nombre,valor) {
 		return {
 			tipo: tipo,
+			nombre: nombre,
 			valor: valor
 		}
 	},
@@ -124,7 +125,7 @@ const instruccionesAPI = {
 		var a=var_arr[0];
 		var b=var_arr[1];
 		return {
-			tipo: TIPO_INSTRUCCION.PARA,
+			tipo: TIPO_INSTRUCCION.FOR,
 			expresionLogica: expresionLogica,
 			instrucciones: instrucciones,
 			aumento: aumento,
@@ -256,7 +257,13 @@ const instruccionesAPI = {
 			tipo: TIPO_INSTRUCCION.RETURN,
 			valores: valores
 		}
+	},
+	nuevoPms: function(){
+		//este metodo distingue entre la asignacion y llamada a un metodo
+		//luego se es convertido a json :)
 	}
+
+	
 
 }
 
