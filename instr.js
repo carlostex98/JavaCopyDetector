@@ -45,47 +45,30 @@ const TIPO_INSTRUCCION = {
 	CONTINUE: 'CONTINUE',
 	BREAK: 'BREAK',
 	RETURN: 'RETURN',
-	LLAMADA_F: "LLAMADA_F"
-};
-
-const TIPO_OPCION_SWITCH = {
-	CASE: 'CASE',
+	LLAMADA_F: "LLAMADA_F",
+	AGRUPACION: "AGRUPACION",
+	CASE : 'CASE',
 	DEFAULT: 'DEFAULT'
 };
 
-function nuevaOpr(Izq, Der, tipo) {
-	return {
-		Izq: Izq,
-		Der: Der,
-		tipo: tipo
-	}
-}
-
 const instruccionesAPI = {
 
-	nuevoOpBinaria: function (Izq, Der, tipo) {
-		return nuevaOpr(Izq, Der, tipo);
-	},
 
-	nuevoImport: function (valor){
+	nuevoImport: function (valor) {
 		return {
 			tipo: TIPO_INSTRUCCION.IMPORT,
 			valor: valor
 		}
 	},
 
-	nuevoClass: function(valor){
+	nuevoClass: function (valor) {
 		return {
 			tipo: TIPO_INSTRUCCION.CLASS,
 			valor: valor
 		}
 	},
 
-	nuevoOprUnaria: function (operando, tipo) {
-		return nuevaOpr(operando, undefined, tipo);
-	},
-
-	nuevoVal: function (tipo, nombre,valor) {
+	nuevoVal: function (tipo, nombre, valor) {
 		return {
 			tipo: tipo,
 			nombre: nombre,
@@ -93,12 +76,12 @@ const instruccionesAPI = {
 		}
 	},
 
-	nuevoPrint: function (expresionCadena,tipo) {
-		n="";
-		if(tipo=="print"){
-			n=TIPO_INSTRUCCION.PRINT;
-		}else{
-			n=TIPO_INSTRUCCION.PRINTLN;
+	nuevoPrint: function (expresionCadena, tipo) {
+		n = "";
+		if (tipo == "print") {
+			n = TIPO_INSTRUCCION.PRINT;
+		} else {
+			n = TIPO_INSTRUCCION.PRINTLN;
 		}
 		return {
 			tipo: n,
@@ -122,8 +105,8 @@ const instruccionesAPI = {
 	},
 
 	nuevoFor: function (var_arr, expresionLogica, aumento, instrucciones) {
-		var a=var_arr[0];
-		var b=var_arr[1];
+		var a = var_arr[0];
+		var b = var_arr[1];
 		return {
 			tipo: TIPO_INSTRUCCION.FOR,
 			expresionLogica: expresionLogica,
@@ -173,32 +156,25 @@ const instruccionesAPI = {
 		}
 	},
 
-	nuevoSwitch: function (expresionNumerica, casos) {
+	nuevoSwitch: function (varx, casos) {
 		return {
 			tipo: TIPO_INSTRUCCION.SWITCH,
-			expresionNumerica: expresionNumerica,
+			variable: varx,
 			casos: casos
 		}
 	},
 
-	nuevoListaCasos: function (caso) {
-		var casos = [];
-		casos.push(caso);
-		return casos;
-	},
-
-	nuevoCaso: function (expresionNumerica, instrucciones) {
-		return {
-			tipo: TIPO_OPCION_SWITCH.CASO,
-			expresionNumerica: expresionNumerica,
-			instrucciones: instrucciones
+	nuevoCaso:function(valor, instr){
+		return{
+			tipo: TIPO_INSTRUCCION.CASE,
+			valor: valor,
+			instrucciones: instr
 		}
 	},
-	//caso defecto
-	nuevoCasoDef: function (instrucciones) {
-		return {
-			tipo: TIPO_OPCION_SWITCH.DEFECTO,
-			instrucciones: instrucciones
+	nuevoDefault:function(instr){
+		return{
+			tipo:TIPO_INSTRUCCION.DEFAULT,
+			instrucciones: instr
 		}
 	},
 
@@ -213,57 +189,77 @@ const instruccionesAPI = {
 			identificador: identificador
 		}
 	},
-	nuevoMetodo: function (nombre, params){
-		return{
-			nombre : nombre,
+	nuevoMetodo: function (nombre, params) {
+		return {
+			nombre: nombre,
 			parametros: params
 		}
 	},
-	nuevoFuncion: function(nombre, params, tipo){
-		return{
+	nuevoFuncion: function (nombre, params, tipo) {
+		return {
 			nombre: nombre,
-			parametros:params,
+			parametros: params,
 			tipo: tipo
 		}
 	},
 	nuevollamada: function (nombre, params) {
-		return{
+		return {
 			tipo: TIPO_INSTRUCCION.LLAMADA_F,
 			nombre: nombre,
-			parametros:params
+			parametros: params
 		}
 	},
-	nuevoAsig: function(nombre, valores){
-		return{
-			tipo:TIPO_INSTRUCCION.ASIGNACION,
-			nombre:nombre,
-			valores:valores
+	nuevoAsig: function (nombre, valores) {
+		return {
+			tipo: TIPO_INSTRUCCION.ASIGNACION,
+			nombre: nombre,
+			valores: valores
 		}
 	},
-	nuevoBreak:function(){
+	nuevoBreak: function () {
 		//no recibe parametros
-		return{
-			tipo:TIPO_INSTRUCCION.BREAK
+		return {
+			tipo: TIPO_INSTRUCCION.BREAK
 		}
 	},
-	nuevoContinue:function(){
+	nuevoContinue: function () {
 		//no recibe parametros
-		return{
-			tipo:TIPO_INSTRUCCION.CONTINUE
+		return {
+			tipo: TIPO_INSTRUCCION.CONTINUE
 		}
 	},
-	nuevoReturn:function(valores){
-		return{
+	nuevoReturn: function (valores) {
+		return {
 			tipo: TIPO_INSTRUCCION.RETURN,
 			valores: valores
 		}
 	},
-	nuevoPms: function(){
-		//este metodo distingue entre la asignacion y llamada a un metodo
-		//luego se es convertido a json :)
+	nuevoValorAsg: function(tipo, valor){
+		return{
+			tipo: tipo,
+			valor: valor
+		}
+	},
+	nuevoParentesis: function(val){
+		return{
+			tipo:TIPO_INSTRUCCION.AGRUPACION,
+			valor:val
+		}
+	},
+	nuevaOpr: function (Izq, Der, tipo) {
+		return {
+			tipo: tipo,
+			Izq: Izq,
+			Der: Der,
+			
+		}
+	},
+	nuevaUnar: function(tipo, valor){
+		return{
+			tipo: tipo,
+			valor: valor
+		}
 	}
-
-	
 
 }
 
@@ -271,4 +267,3 @@ module.exports.TIPO_OPERACION = TIPO_OPERACION;
 module.exports.TIPO_INSTRUCCION = TIPO_INSTRUCCION;
 module.exports.TIPO_VALOR = TIPO_VALOR;
 module.exports.instruccionesAPI = instruccionesAPI;
-module.exports.TIPO_OPCION_SWITCH = TIPO_OPCION_SWITCH;

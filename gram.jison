@@ -62,7 +62,7 @@
 "}"                     return 'LLAVE_C';
 "."                     return 'PUNTO';
 ";"                     return 'PUNTO_C';
-":"                     return 'POW';
+":"                     return 'DOS_P';
 ">"                     return 'MAYOR';
 "<"                     return 'MENOR';
 ">="                    return 'MAYOR_I';
@@ -75,6 +75,7 @@
 "&&"                    return 'AND';
 "||"                    return 'OR';
 "^"                     return 'POW';
+","                     return 'COMA';
 \"[^\"]*\"				{ yytext = yytext.substr(1,yyleng-2); return 'CADENA'; }
 [0-9]+("."[0-9]+)?\b  	return 'DECIMAL';
 [0-9]+\b				return 'ENTERO';
@@ -85,7 +86,7 @@
 /lex
 %{
 	const TIPO_OPERACION	= require('./instrucciones').TIPO_OPERACION;
-	const TIPO_VALOR 		= require('./instrucciones').TIPO_VALOR;
+	const TIPO_VAL		= require('./instrucciones').TIPO_VAL;
 	const instruccionesAPI	= require('./instrucciones').instruccionesAPI;
 %}
 
@@ -107,7 +108,7 @@ instrucciones
 
 instr_main
 	: IMPORT IDENTIFICADOR PUNTO_C 	{ $$ = instruccionesAPI.nuevoImport($2); } 
-    | CLASS IDENTIFICADOR LLAVE_A instr_methods LLAVE_C 	{ $$ = instruccionesAPI.nuevoClass($4); } 	
+    | CLASS IDENTIFICADOR LLAVE_A instr_methods LLAVE_C 	{ $$ = instruccionesAPI.nuevoClass($4); in_var("Class", $2);} 	
 	| error { console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + this._$.first_line + ', en la columna: ' + this._$.first_column); }
 ;
 
@@ -116,8 +117,8 @@ instr_methods
     |instr_meth                 {$$ = [$1];}
 ;
 instr_meth
-    : VOID IDENTIFICADOR PAR_A params PAR_C LLAVE_A instr_general LLAVE_C {$$=instruccionesAPI.nuevoMetodo($2,$4)}
-    | typo_var IDENTIFICADOR PAR_A params PAR_C LLAVE_A instr_general LLAVE_C {$$=instruccionesAPI.nuevoFuncion($2,$4,$1)}
+    : VOID IDENTIFICADOR PAR_A params PAR_C LLAVE_A instr_general LLAVE_C {$$=instruccionesAPI.nuevoMetodo($2,$4); in_var("Void", $2);}
+    | typo_var IDENTIFICADOR PAR_A params PAR_C LLAVE_A instr_general LLAVE_C {$$=instruccionesAPI.nuevoFuncion($2,$4,$1); in_var("Funcion", $2);}
 ;
 
 
@@ -127,32 +128,56 @@ instr_general
 ;
 //normal
 instr
-    : IF PAR_A declaracion PAR_C LLAVE_A instr_general LLAVE_C {$$=instruccionesAPI.nuevoIf($3,$6)}
-    | ELSE IF PAR_A declaracion PAR_C LLAVE_A instr_general LLAVE_C {$$=instruccionesAPI.nuevoElseIf($4,$7)}
-    | ELSE LLAVE_A instr_general LLAVE_C {$$=instruccionesAPI.nuevoElse($3)}
-    | WHILE PAR_A declaracion PAR_C LLAVE_A instr_general LLAVE_C {$$=instruccionesAPI.nuevoWhile($3,$6)}
-    | DO LLAVE_A instr_general LLAVE_C WHILE PAR_A declaracion PAR_C PUNTO_C {$$=instruccionesAPI.nuevoDoWhile($7,$3)}
-    | SYSTEM PUNTO OUT otro_print PAR_A asignacion PAR_C PUNTO_C  {$$=instruccionesAPI.nuevoPrint($6,$4)}
-    | IDENTIFICADOR otro_asig PUNTO_C{}
-    | FOR PAR_A var_for PUNTO_C asignacion PUNTO_C asignacion PAR_C LLAVE_A instr_general LLAVE_C {$$=instruccionesAPI.nuevoFor($3,$5,$7,$10)}
-    | typo_var IDENTIFICADOR IGUAL asignacion PUNTO_C {$$=instruccionesAPI.nuevoVal($1,$2,$4);}
-    | BREAK PUNTO_C {$$=instruccionesAPI.nuevoBreak()}
-    | RETURN asignacion PUNTO_C {$$=instruccionesAPI.nuevoReturn($2)}
-    | CONTINUE PUNTO_C {$$=instruccionesAPI.nuevoContinue()}
+    : IF PAR_A declaracion PAR_C LLAVE_A instr_general LLAVE_C {$$=instruccionesAPI.nuevoIf($3,$6);}
+    | ELSE IF PAR_A declaracion PAR_C LLAVE_A instr_general LLAVE_C {$$=instruccionesAPI.nuevoElseIf($4,$7);}
+    | ELSE LLAVE_A instr_general LLAVE_C {$$=instruccionesAPI.nuevoElse($3);}
+    | WHILE PAR_A declaracion PAR_C LLAVE_A instr_general LLAVE_C {$$=instruccionesAPI.nuevoWhile($3,$6);}
+    | DO LLAVE_A instr_general LLAVE_C WHILE PAR_A declaracion PAR_C PUNTO_C {$$=instruccionesAPI.nuevoDoWhile($7,$3);}
+    | SYSTEM PUNTO OUT otro_print PAR_A asignacion PAR_C PUNTO_C  {$$=instruccionesAPI.nuevoPrint($6,$4);}
+    | FOR PAR_A var_for PUNTO_C asignacion PUNTO_C asignacion PAR_C LLAVE_A instr_general LLAVE_C {$$=instruccionesAPI.nuevoFor($3,$5,$7,$10);}
+    | typo_var lista_v IGUAL asignacion PUNTO_C {$$=instruccionesAPI.nuevoVal($1,$2,$4); in_var("Variable", $2);}
+    | typo_var lista_v PUNTO_C {$$=instruccionesAPI.nuevoVal($1,$2,undefined); in_var("Variable", $2); }
+    | BREAK PUNTO_C {$$=instruccionesAPI.nuevoBreak();}
+    | RETURN asignacion PUNTO_C {$$=instruccionesAPI.nuevoReturn($2);}
+    | CONTINUE PUNTO_C {$$=instruccionesAPI.nuevoContinue();}
+    | IDENTIFICADOR PAR_A params2 PAR_C PUNTO_C  {$$=instruccionesAPI.nuevollamada($1,$3);}
+    | IDENTIFICADOR IGUAL asignacion PUNTO_C    {$$=instruccionesAPI.nuevoAsig($1,$3);}
+    | SWITCH PAR_A asignacion PAR_C LLAVE_A sw_op LLAVE_C {$$=instruccionesAPI.nuevoSwitch($3,$6);}
 ;
 
+lista_v
+    :lista COMA IDENTIFICADOR {$1.push($3) $$=$1;}
+    | IDENTIFICADOR {$$=$1;}
+;
+
+sw_op
+    : sw_op casos {$1.push($2); $$=$1;}
+    |casos {$$=$1;}
+;
+
+casos
+    : CASE asignacion DOS_P instr_general {$$=instruccionesAPI.nuevoCaso($1,$3);}
+    | DEFAULT DOS_P instr_general {$$=instruccionesAPI.nuevoDefault($3);}
+;
 var_for
     : typo_var IDENTIFICADOR IGUAL asignacion {$$=[$2,$4];}
     | IDENTIFICADOR IGUAL asignacion {$$=[$1,$3]}
 ;
 
-otro_asig
-    : PAR_A params2 PAR_C{}
-    | IGUAL asignacion{}
-;
+/*para los parametros de llama de funcion*/
 params2
-    :
+    : /*empty*/ {$$=undefined;}
+    | params2 COMA asignacion   {$1.push($3); $$=$1;}
+    | asignacion {$$=$1;}
+
 ;
+/*para los valores en la de claracion de una finc*/
+params
+    : /*empty*/   {$$=undefined;}
+    | params COMA typo_var IDENTIFICADOR {$1.push([$3,$4]); $$=$1;}
+    | typo_var IDENTIFICADOR {$$=[$1,$2];}
+;
+
 
 typo_var
     : INT       {$$=$1}
@@ -168,14 +193,38 @@ otro_print
 ;
 
 asignacion
-    :
+    : asignacion symb asignacion {$$=instruccionesAPI.nuevaOpr($1,$3,$2)}
+    | valx  {$$=$1}
 ;
 
-params
-    :
+valx
+    : ENTERO    {$$=instruccionesAPI.nuevoValorAsg(TIPO_VAL.NUMERO,$1);}
+    | DECIMAL   {$$=instruccionesAPI.nuevoValorAsg(TIPO_VAL.NUMERO,$1);}
+    | IDENTIFICADOR {$$=instruccionesAPI.nuevoValorAsg(TIPO_VAL.IDENTIFICADOR,$1);}
+    | IDENTIFICADOR PAR_A params2 PAR_C {$$=instruccionesAPI.nuevollamada($1,$3);}
+    | TRUE {$$=instruccionesAPI.nuevoValorAsg(TIPO_VAL.IDENTIFICADOR,$1);}
+    | FALSE {$$=instruccionesAPI.nuevoValorAsg(TIPO_VAL.IDENTIFICADOR,$1);}
+    | PAR_A valx PAR_C {$$=instruccionesAPI.nuevoParentesis($2);}
+    | unar_op   {$$=$1;}
 ;
 
-params2
-    :
+unar_op
+    :MENOS valx {$$=instruccionesAPI.nuevaUnar(TIPO_OPERACION.RESTA,$2);}
+    |NOT valx   {$$=instruccionesAPI.nuevaUnar(TIPO_OPERACION.NOT,$2);}
 ;
 
+symb
+    : AND {$$=TIPO_OPERACION.AND;}
+    | OR {$$=TIPO_OPERACION.OR;}
+    | NO_IGUAL {$$=TIPO_OPERACION.NO_IGUAL;}
+    | MAS {$$=TIPO_OPERACION.SUMA;}
+    | MENOS {$$=TIPO_OPERACION.RESTA;}
+    | POR {$$=TIPO_OPERACION.MULTIPLICACION;}
+    | DIV {$$=TIPO_OPERACION.DIVISION;}
+    | POW {$$=TIPO_OPERACION.POW;}
+    | MAYOR {$$=TIPO_OPERACION.MAYOR_QUE;}
+    | MENOR {$$=TIPO_OPERACION.MENOR_QUE;}
+    | MAYOR_I {$$=TIPO_OPERACION.MAYOR_IGUAL;}
+    | MENOR_I {$$=TIPO_OPERACION.MENOR_IGUAL;}
+    | IGUAL_IGUAL {$$=TIPO_OPERACION.DOBLE_IGUAL;}
+;
