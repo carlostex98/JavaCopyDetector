@@ -267,5 +267,5 @@ const instruccionesAPI = {
 
 module.exports.TIPO_OPERACION = TIPO_OPERACION;
 module.exports.TIPO_INSTRUCCION = TIPO_INSTRUCCION;
-module.exports.TIPO_VALOR = TIPO_VALOR;
+module.exports.TIPO_VAL = TIPO_VAL;
 module.exports.instruccionesAPI = instruccionesAPI;

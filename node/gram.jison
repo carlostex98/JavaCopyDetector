@@ -92,7 +92,7 @@
 %% /* gramar def */
 
 ini
-	: instrucciones EOF {return [$1,errores, nombre];}
+	: instrucciones EOF {return [$1,errores, nombres];}
 ;
 instrucciones
 	: instrucciones instr_main 	{ $1.push($2); $$ = $1; }

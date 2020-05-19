@@ -84,7 +84,7 @@ performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* actio
 var $0 = $$.length - 1;
 switch (yystate) {
 case 1:
-return [$$[$0-1],errores, nombre];
+return [$$[$0-1],errores, nombres];
 break;
 case 2: case 12:
  $$[$0-1].push($$[$0]); this.$ = $$[$0-1]; 
