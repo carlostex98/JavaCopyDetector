@@ -4,12 +4,16 @@
     let errores =[];
     let nombres=[];
     function in_err(tipo, lin, col, decrip){
-        var c = [errores.length, tipo, lin,col, decrip];
+        var c={id:errores.length, tipo:tipo, linea:lin, columna:col, descripcion:descrip};
         errores.push(c);
     }
     function in_var(tipo, nombre){
-        var c = [tipo, nombre];
+        var c = {tipo:tipo, nombre:nombre};
         nombres.push(c);
+    }
+
+    function clear_vars(){
+        errores=nombre=[];
     }
 %}
 
@@ -84,6 +88,7 @@
 	const TIPO_OPERACION	= require('./instr').TIPO_OPERACION;
 	const TIPO_VAL		= require('./instr').TIPO_VAL;
 	const instruccionesAPI	= require('./instr').instruccionesAPI;
+    module.exports.clear_vars=clear_vars;
 %}
 
 

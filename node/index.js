@@ -3,14 +3,14 @@ var jison = require("jison");
 var fs = require("fs");
 var app = express();
 app.set('port', '3000');
-var a="";
-var b="";
+var result;
 
-//app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', function (req, res) {
     //lexer.parse_start();
-    res.send('prus.html');
+    res.send('el coso funciona');
 });
 
 app.listen(app.get('port'), function () {
@@ -18,12 +18,17 @@ app.listen(app.get('port'), function () {
 
 });
 
-app.get('/o/:file1/:file2', function (req, res) {
-    a=req.params.file1;
-    b=req.params.file2;
-    compile(a,b);
-    res.send("hola gupis");
+app.post('/onfer/', function (req, res) {
+    var x=req.body.file1;
+    var y=req.body.file2;
+    //res.send(result);
+    compile(x,y);
 });
+
+app.get('/fmx', function (req, res) {
+    //respondemos con el json
+});
+
 
 var e=0;
 
@@ -42,12 +47,19 @@ if(e==1){
 
 
 function compile(e1,e2){
-    let resultado1;
-    let resultado2;
+    let resultado1=[];
+    let resultado2=[];
     //primera pasada
+    
     var parser = require('./gram');
+
+    parser.clear_vars();
     resultado1=parser.parse(e1);
-    console.log(resultado1[1]);
+    
+    parser.clear_vars();
+    resultado2=parser.parse(e2);
+
+    //generate ast jajaj
 }
 
 

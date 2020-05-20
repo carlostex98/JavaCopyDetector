@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/w3.css" rel="stylesheet" type="text/css">
+    <link href="../css/w3.css" rel="stylesheet" type="text/css" media="all">
+    <script src="../js/app.js"></script>
     <title>JavaCopyDetector</title>
 </head>
 
@@ -26,7 +28,7 @@
 
 
     <div class="w3-padding-48 w3-content">
-        <div class="w3-card-4">
+        <div class="w3-card-4" ng-app="myApp" ng-controller="compile">
             <div class="w3-container w3-teal">
                 <h2>app ins</h2>
             </div>
@@ -52,20 +54,20 @@
             </div>
 
 
-            <form class="w3-container" method="POST" action="/">
+            <form class="w3-container">
                 <p>
                     <label class=""><b>El codigo original</b></label>
 
-                    <textarea class="w3-input w3-border w3-light-gray" style="height: 600px;" name="texto" id="texto"></textarea>
+                    <textarea class="w3-input w3-border w3-light-gray" style="height: 600px;" name="texto" id="texto" ng-model="file1"></textarea>
                 </p>
                 <p>
                     <label class=""><b>El codigo a evaluar</b></label>
 
-                    <textarea class="w3-input w3-border w3-light-gray" style="height: 600px;" name="texto" id="texto"></textarea>
+                    <textarea class="w3-input w3-border w3-light-gray" style="height: 600px;" name="texto" id="texto" ng-model="file2"></textarea>
                 </p>
 
                 <p>
-                    <button class="w3-btn w3-teal" type="submit">Compilar</button>
+                    <button class="w3-btn w3-teal" type="submit" ng-click="new_data()">Compilar</button>
                 </p>
             </form>
             

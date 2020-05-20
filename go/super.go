@@ -1,36 +1,22 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"text/template"
 )
 
-type archivos struct {
-	original string
-	copia    string
+func index(w http.ResponseWriter, r *http.Request) {
+	t := template.Must(template.ParseFiles("form.html"))
+	t.Execute(w, "")
 }
 
 func main() {
-	fs := http.FileServer(http.Dir("assets/"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
-	tmpl := template.Must(template.ParseFiles("form.html"))
+	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("css/"))))
+	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("js/"))))
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != http.MethodPost {
-			tmpl.Execute(w, nil)
-			return
-		}
+	http.HandleFunc("/", index)
 
-		analizar := archivos{
-			original: r.FormValue("file1"),
-			copia:    r.FormValue("file2"),
-		}
-
-		// do something with details
-		_ = analizar
-
-		tmpl.Execute(w, struct{ Success bool }{true})
-	})
-
+	fmt.Printf("Servidor escuchando en: http://localhost:8000/")
 	http.ListenAndServe(":8000", nil)
 }
