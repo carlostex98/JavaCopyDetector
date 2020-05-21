@@ -37,7 +37,7 @@
 "false"                 {return 'FALSE';}
 "if"                    {return 'IF';}
 "else"                  {return 'ELSE';}
-"Switch"                {return 'SWITCH';}
+"switch"                {return 'SWITCH';}
 "case"                  {return 'CASE';}
 "default"               {return 'DEFAULT';}
 "break"                 {return 'BREAK';}
@@ -138,7 +138,7 @@ instr
     | typo_var lista_v IGUAL asignacion PUNTO_C {$$=instruccionesAPI.nuevoVal($1,$2,$4); in_var("Variable", $2);}
     | typo_var lista_v PUNTO_C {$$=instruccionesAPI.nuevoVal($1,$2,""); in_var("Variable", $2); }
     | BREAK PUNTO_C {$$=instruccionesAPI.nuevoBreak();}
-    | RETURN asignacion PUNTO_C {$$=instruccionesAPI.nuevoReturn($2);}
+    | RETURN asignacion_ret PUNTO_C {$$=instruccionesAPI.nuevoReturn($2);}
     | IDENTIFICADOR sms PUNTO_C {$$=instruccionesAPI.nuevaUnar($2,$1);}
     | IDENTIFICADOR PAR_A params2 PAR_C PUNTO_C  {$$=instruccionesAPI.nuevollamada($1,$3);}
     | IDENTIFICADOR IGUAL asignacion PUNTO_C    {$$=instruccionesAPI.nuevoAsig($1,$3);}
@@ -148,27 +148,32 @@ instr
 ;
 
 
+asignacion_ret
+    :/*empty*/ {}
+    |asignacion {$$=$1}
+;
+
 asignacion_icr
     : IDENTIFICADOR sms {$$=[$1,$2];}
 ;
 
 sms
-    : MASM  {$$=TIPO_OPERACION.INCREMENTO;}
-    | MENOSM {$$=TIPO_OPERACION.DECREMENTO;}
+    : MAS MAS  {$$=TIPO_OPERACION.INCREMENTO;}
+    | MENOS MENOS {$$=TIPO_OPERACION.DECREMENTO;}
 ;
 
 lista_v
-    :lista COMA IDENTIFICADOR {$1.push($3); $$=$1;}
-    | IDENTIFICADOR {$$=$1;}
+    :lista_v COMA IDENTIFICADOR {$1.push($3); $$=$1;}
+    | IDENTIFICADOR {$$=[$1];}
 ;
 
 sw_op
     : sw_op casos {$1.push($2); $$=$1;}
-    |casos {$$=$1;}
+    |casos {$$=[$1];}
 ;
 
 casos
-    : CASE asignacion DOS_P instr_general {$$=instruccionesAPI.nuevoCaso($1,$3);}
+    : CASE asignacion DOS_P instr_general {$$=instruccionesAPI.nuevoCaso($2,$4);}
     | DEFAULT DOS_P instr_general {$$=instruccionesAPI.nuevoDefault($3);}
 ;
 var_for
