@@ -320,4 +320,9 @@ function minVar(){
     //el minimo de valor, es decir, numero, cadena, identificador
 }
 
+function asig(){
+    //master de asignacion
+    //llama a todos los hijos
+}
+
 
