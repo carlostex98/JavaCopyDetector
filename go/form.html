@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/w3.css" rel="stylesheet" type="text/css">
-    <link href="../css/w3.css" rel="stylesheet" type="text/css" media="all">
-    <script src="../js/app.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js" ></script>
+    <link href="/css/w3.css" rel="stylesheet" type="text/css" media="all">
+    <script src="/js/app.js"></script>
     <title>JavaCopyDetector</title>
 </head>
 
@@ -33,41 +33,20 @@
                 <h2>app ins</h2>
             </div>
 
-            <div class="w3-container">
-                <br>
-                <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">Abrir
-                    archivo</button>
-
-                <div id="id01" class="w3-modal">
-                    <div class="w3-modal-content">
-                        <div class="w3-container">
-                            <span onclick="document.getElementById('id01').style.display='none'"
-                                class="w3-button w3-display-topright">&times;</span>
-                            <h2>Selecciona el Archivo</h2>
-                            <form method="post" action="/upl" encType="multipart/form-data">
-                                <input name="foo" type="file" />><br>
-                                <input type="submit">
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
             <form class="w3-container">
                 <p>
                     <label class=""><b>El codigo original</b></label>
 
-                    <textarea class="w3-input w3-border w3-light-gray" style="height: 600px;" name="texto" id="texto" ng-model="file1"></textarea>
+                    <textarea class="w3-input w3-border w3-light-gray" style="height: 600px;" name="texto" id="texto" ng-model="formdata.file1"></textarea>
                 </p>
                 <p>
                     <label class=""><b>El codigo a evaluar</b></label>
 
-                    <textarea class="w3-input w3-border w3-light-gray" style="height: 600px;" name="texto" id="texto" ng-model="file2"></textarea>
+                    <textarea class="w3-input w3-border w3-light-gray" style="height: 600px;" name="texto" id="texto" ng-model="formdata.file2"></textarea>
                 </p>
 
                 <p>
-                    <button class="w3-btn w3-teal" type="submit" ng-click="new_data()">Compilar</button>
+                    <button class="w3-btn w3-teal" ng-click="new_data()">Compilar</button>
                 </p>
             </form>
             

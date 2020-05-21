@@ -44,18 +44,17 @@ const TIPO_INSTRUCCION = {
 	CLASS: 'CLASS',
 	MAIN: 'MAIN',
 	FUNCION: 'FUNCION',
+	METODO: 'METODO',
 	CONTINUE: 'CONTINUE',
 	BREAK: 'BREAK',
 	RETURN: 'RETURN',
 	LLAMADA_F: "LLAMADA_F",
 	AGRUPACION: "AGRUPACION",
-	CASE : 'CASE',
+	CASE: 'CASE',
 	DEFAULT: 'DEFAULT'
 };
 
 const instruccionesAPI = {
-
-
 	nuevoImport: function (valor) {
 		return {
 			tipo: TIPO_INSTRUCCION.IMPORT,
@@ -63,10 +62,11 @@ const instruccionesAPI = {
 		}
 	},
 
-	nuevoClass: function (valor) {
+	nuevoClass: function (valor, instr) {
 		return {
 			tipo: TIPO_INSTRUCCION.CLASS,
-			valor: valor
+			valor: valor,
+			instrucciones: instr
 		}
 	},
 
@@ -78,7 +78,7 @@ const instruccionesAPI = {
 		}
 	},
 
-	nuevoPrint: function (expresionCadena, tipo) {
+	nuevoPrint: function (tipo, valores) {
 		n = "";
 		if (tipo == "print") {
 			n = TIPO_INSTRUCCION.PRINT;
@@ -87,21 +87,21 @@ const instruccionesAPI = {
 		}
 		return {
 			tipo: n,
-			expresionCadena: expresionCadena
+			valores: valores
 		}
 	},
 
 	nuevoWhile: function (exprLogica, instrucciones) {
 		return {
 			tipo: TIPO_INSTRUCCION.WHILE,
-			expresionLogica: exprLogica,
+			expresion: exprLogica,
 			instrucciones: instrucciones
 		};
 	},
 	nuevoDoWhile: function (exprLogica, instrucciones) {
 		return {
 			tipo: TIPO_INSTRUCCION.DO_WHILE,
-			expresionLogica: exprLogica,
+			expresion: exprLogica,
 			instrucciones: instrucciones
 		};
 	},
@@ -111,34 +111,18 @@ const instruccionesAPI = {
 		var b = var_arr[1];
 		return {
 			tipo: TIPO_INSTRUCCION.FOR,
-			expresionLogica: expresionLogica,
-			instrucciones: instrucciones,
+			expresion: expresionLogica,
 			aumento: aumento,
 			variable: a,
-			valorVariable: b
-		}
-	},
-
-	nuevoDeclaracion: function (identificador, tipo) {
-		return {
-			tipo: TIPO_INSTRUCCION.DECLARACION,
-			identificador: identificador,
-			tipo_dato: tipo
-		}
-	},
-	//pendiente
-	nuevoAsignacion: function (identificador, expresionNumerica) {
-		return {
-			tipo: TIPO_INSTRUCCION.ASIGNACION,
-			identificador: identificador,
-			expresionNumerica: expresionNumerica
+			valorVariable: b,
+			instrucciones: instrucciones
 		}
 	},
 
 	nuevoIf: function (expresionLogica, instrucciones) {
 		return {
 			tipo: TIPO_INSTRUCCION.IF,
-			expresionLogica: expresionLogica,
+			expresion: expresionLogica,
 			instrucciones: instrucciones
 		}
 	},
@@ -149,12 +133,11 @@ const instruccionesAPI = {
 		}
 	},
 
-	nuevoElseIf: function (expresionLogica, instruccionesIfVerdadero, instruccionesIfFalso) {
+	nuevoElseIf: function (expresionLogica, instrx) {
 		return {
 			tipo: TIPO_INSTRUCCION.IF_ELSE,
-			expresionLogica: expresionLogica,
-			instruccionesIfVerdadero: instruccionesIfVerdadero,
-			instruccionesIfFalso: instruccionesIfFalso
+			expresion: expresionLogica,
+			intrucciones: instrx
 		}
 	},
 
@@ -166,42 +149,35 @@ const instruccionesAPI = {
 		}
 	},
 
-	nuevoCaso:function(valor, instr){
-		return{
+	nuevoCaso: function (valor, instr) {
+		return {
 			tipo: TIPO_INSTRUCCION.CASE,
 			valor: valor,
 			instrucciones: instr
 		}
 	},
-	nuevoDefault:function(instr){
-		return{
-			tipo:TIPO_INSTRUCCION.DEFAULT,
+	nuevoDefault: function (instr) {
+		return {
+			tipo: TIPO_INSTRUCCION.DEFAULT,
 			instrucciones: instr
 		}
 	},
 
-	nuevoOperador: function (operador) {
-		return operador
-	},
-	aignacionSimplificada: function (identificador, operador, expresionNumerica) {
+	nuevoMetodo: function (nombre, params, instrx) {
 		return {
-			tipo: TIPO_INSTRUCCION.ASIGNACION_SIMPLIFICADA,
-			operador: operador,
-			expresionNumerica: expresionNumerica,
-			identificador: identificador
-		}
-	},
-	nuevoMetodo: function (nombre, params) {
-		return {
-			nombre: nombre,
-			parametros: params
-		}
-	},
-	nuevoFuncion: function (nombre, params, tipo) {
-		return {
+			tipo: TIPO_INSTRUCCION.METODO,
 			nombre: nombre,
 			parametros: params,
-			tipo: tipo
+			instrucciones: instrx
+		}
+	},
+	nuevoFuncion: function (nombre, params, tipo, intrx) {
+		return {
+			tipo: TIPO_INSTRUCCION.FUNCION,
+			nombre: nombre,
+			parametros: params,
+			tipo: tipo,
+			instrucciones: instrx
 		}
 	},
 	nuevollamada: function (nombre, params) {
@@ -236,16 +212,16 @@ const instruccionesAPI = {
 			valores: valores
 		}
 	},
-	nuevoValorAsg: function(tipo, valor){
-		return{
+	nuevoValorAsg: function (tipo, valor) {
+		return {
 			tipo: tipo,
 			valor: valor
 		}
 	},
-	nuevoParentesis: function(val){
-		return{
-			tipo:TIPO_INSTRUCCION.AGRUPACION,
-			valor:val
+	nuevoParentesis: function (val) {
+		return {
+			tipo: TIPO_INSTRUCCION.AGRUPACION,
+			valor: val
 		}
 	},
 	nuevaOpr: function (Izq, Der, tipo) {
@@ -253,11 +229,11 @@ const instruccionesAPI = {
 			tipo: tipo,
 			Izq: Izq,
 			Der: Der,
-			
+
 		}
 	},
-	nuevaUnar: function(tipo, valor){
-		return{
+	nuevaUnar: function (tipo, valor) {
+		return {
 			tipo: tipo,
 			valor: valor
 		}

@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/w3.css" rel="stylesheet" type="text/css">
-    <link href="../css/w3.css" rel="stylesheet" type="text/css" media="all">
-    <script src="../js/app.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js" ></script>
+    <link href="/css/w3.css" rel="stylesheet" type="text/css" media="all">
+    <script src="/js/app.js"></script>
     <title>JavaCopyDetector</title>
 </head>
 
@@ -28,7 +28,7 @@
     <br>
     <br>
 
-    <div class="w3-content w3-padding-48">
+    <div class="w3-content w3-padding-48" ng-app="myApp" ng-controller="result_set">
         <h2>Resultado de la compilacion</h2>
 
         <div class="w3-row">
@@ -41,7 +41,7 @@
             </a>
         </div>
 
-        <div id="Paris" class="w3-container city" style="display:none">
+        <div id="Paris" class="w3-container city" style="display:none" >
             <br>
             <table class="w3-table w3-striped w3-border">
                 <tr>
@@ -57,7 +57,7 @@
                     <td>{{ x.tipo }}</td>
                     <td>{{ x.linea }}</td>
                     <td>{{ x.columna }}</td>
-                    <td>{{ x.descrip }}</td>
+                    <td>{{ x.descripcion }}</td>
                 </tr>
 
             </table>
