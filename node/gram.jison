@@ -180,7 +180,7 @@ var_for
 params2
     : /*empty*/ {$$="";}
     | params2 COMA asignacion   {$1.push($3); $$=$1;}
-    | asignacion {$$=$1;}
+    | asignacion {$$=[$1];}
 
 ;
 /*para los valores en la de claracion de una finc*/

@@ -72,6 +72,7 @@ const instruccionesAPI = {
 
 	nuevoVal: function (tipo, nombre, valor) {
 		return {
+			tipex: 'VARIABLE',
 			tipo: tipo,
 			nombre: nombre,
 			valor: valor

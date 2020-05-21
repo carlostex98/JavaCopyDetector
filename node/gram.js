@@ -173,7 +173,7 @@ break;
 case 34: case 43:
 $$[$0-2].push($$[$0]); this.$=$$[$0-2];
 break;
-case 35: case 37: case 44: case 56: case 65:
+case 35: case 37: case 56: case 65:
 this.$=$$[$0];
 break;
 case 36:
@@ -193,6 +193,9 @@ this.$=[$$[$0-2],$$[$0]]
 break;
 case 42: case 45:
 this.$="";
+break;
+case 44:
+this.$=[$$[$0]];
 break;
 case 46:
 $$[$0-3].push([$$[$0-1],$$[$0]]); this.$=$$[$0-3];
