@@ -54,29 +54,45 @@ const TIPO_INSTRUCCION = {
 	DEFAULT: 'DEFAULT'
 };
 
+//estaba diseñado para devolver un json, pero lo arregle para que 
+// devuelva un arbol en html
 const instruccionesAPI = {
-	nuevoImport: function (valor) {
-		return {
-			tipo: TIPO_INSTRUCCION.IMPORT,
-			valor: valor
-		}
+	nuevoImport: function (valor) {//ok
+		var n = "<li> IMPORT - " + valor + "</li>"
+		return n;
 	},
 
-	nuevoClass: function (valor, instr) {
-		return {
-			tipo: TIPO_INSTRUCCION.CLASS,
-			valor: valor,
-			instrucciones: instr
-		}
+	nuevoClass: function (valor, instr) {//ok
+		var poser = "<li><span class=\"caret\"> CLASS </span>";
+		poser+="<ul class=\"nested\">";
+		poser+="<li>Nombre:"+valor+"</li>";//ahora las instrucciones
+		poser+="<li><span class=\"caret\">Instrucciones</span>";
+		poser+="<ul class=\"nested\">";
+		poser+=instr;
+		poser+="</ul>";
+		poser+="</li>";
+		poser+="</ul>";
+		poser+="</li>"
+		return poser;
 	},
 
 	nuevoVal: function (tipo, nombre, valor) {
-		return {
-			tipex: 'VARIABLE',
-			tipo: tipo,
-			nombre: nombre,
-			valor: valor
-		}
+		var p="<li><span class=\"caret\">Variable</span>";
+		p+="<ul class=\"nested\">";
+		p+="<li>Tipo:"+tipo+"</li>";
+		p+="<li>Nombre:"+nombre+"</li>";
+
+		p+="<li><span class=\"caret\">Valor</span>";
+		p+="<ul class=\"nested\">";
+		p+=valor;
+		p+="</ul>";
+		p+="</li>";
+
+		
+		p+="</ul>";
+		p+="</li>";
+
+		return p;
 	},
 
 	nuevoPrint: function (tipo, valores) {
@@ -86,28 +102,94 @@ const instruccionesAPI = {
 		} else {
 			n = TIPO_INSTRUCCION.PRINTLN;
 		}
-		return {
-			tipo: n,
-			valores: valores
-		}
+		var p="<li><span class=\"caret\">PRINT</span>";
+		p+="<ul class=\"nested\">";
+		
+
+		p+="<li><span class=\"caret\">Valor</span>";
+		p+="<ul class=\"nested\">";
+		p+=valores;
+		p+="</ul>";
+		p+="</li>";
+
+		
+		p+="</ul>";
+		p+="</li>";
+
+		return p;
 	},
 
 	nuevoWhile: function (exprLogica, instrucciones) {
-		return {
-			tipo: TIPO_INSTRUCCION.WHILE,
-			expresion: exprLogica,
-			instrucciones: instrucciones
-		};
+		var p="<li><span class=\"caret\"> WHILE </span>";
+		p+="<ul class=\"nested\">";
+		
+
+		p+="<li><span class=\"caret\">Valor-logico</span>";
+		p+="<ul class=\"nested\">";
+		p+=exprLogica;
+		p+="</ul>";
+		p+="</li>";
+
+		p+="<li><span class=\"caret\">Instrucciones</span>";
+		p+="<ul class=\"nested\">";
+		p+=instrucciones;
+		p+="</ul>";
+		p+="</li>";
+		
+		p+="</ul>";
+		p+="</li>";
+
+		return p;
+
 	},
 	nuevoDoWhile: function (exprLogica, instrucciones) {
-		return {
-			tipo: TIPO_INSTRUCCION.DO_WHILE,
-			expresion: exprLogica,
-			instrucciones: instrucciones
-		};
+		var p="<li><span class=\"caret\"> DO-WHILE </span>";
+		p+="<ul class=\"nested\">";
+		
+
+		p+="<li><span class=\"caret\">Valor-logico</span>";
+		p+="<ul class=\"nested\">";
+		p+=exprLogica;
+		p+="</ul>";
+		p+="</li>";
+
+		p+="<li><span class=\"caret\">Instrucciones</span>";
+		p+="<ul class=\"nested\">";
+		p+=instrucciones;
+		p+="</ul>";
+		p+="</li>";
+		
+		p+="</ul>";
+		p+="</li>";
+
+		return p;
 	},
 
 	nuevoFor: function (var_arr, expresionLogica, aumento, instrucciones) {
+
+		var p="<li><span class=\"caret\"> FOR </span>";
+		p+="<ul class=\"nested\">";
+		
+
+		p+="<li><span class=\"caret\">Valor-logico</span>";
+		p+="<ul class=\"nested\">";
+		p+=exprLogica;
+		p+="</ul>";
+		p+="</li>";
+
+		p+="<li><span class=\"caret\">Instrucciones</span>";
+		p+="<ul class=\"nested\">";
+		p+=instrucciones;
+		p+="</ul>";
+		p+="</li>";
+		
+		p+="</ul>";
+		p+="</li>";
+
+		return p;
+
+
+
 		var a = var_arr[0];
 		var b = var_arr[1];
 		return {

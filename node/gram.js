@@ -164,7 +164,7 @@ break;
 case 32: case 50: case 51: case 52: case 53: case 54: case 55: case 56:
 this.$=$$[$0]
 break;
-case 33: case 49:
+case 33:
 this.$=[$$[$0-1],$$[$0]];
 break;
 case 34:
@@ -198,7 +198,10 @@ case 44: case 47:
 this.$="";
 break;
 case 48:
-$$[$0-3].push([$$[$0-1],$$[$0]]); this.$=$$[$0-3];
+$$[$0-3].push($$[$0-1]+" -> "+$$[$0]); this.$=$$[$0-3];
+break;
+case 49:
+this.$=[$$[$0-1]+" -> "+$$[$0]];
 break;
 case 57:
 this.$=instruccionesAPI.nuevaOpr($$[$0-2],$$[$0],$$[$0-1]);
