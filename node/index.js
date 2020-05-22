@@ -71,6 +71,7 @@ function compile(e1, e2) {
     for (let i = 0; i < resultado1[0].length; i++) {
         ast+=resultado1[0][i];
     }
+    ast=ast.replace(">,<", "><");
     result = { errores: resultado1[1], copia: null, ast: ast };
 }
 
