@@ -63,11 +63,11 @@ const instruccionesAPI = {
 	},
 
 	nuevoClass: function (valor, instr) {//ok
-		var poser = "<li><span class=\"caret\"> CLASS </span>";
-		poser+="<ul class=\"nested\">";
+		var poser = "<li><span class='caret'> CLASS </span>";
+		poser+="<ul class='nested'>";
 		poser+="<li>Nombre:"+valor+"</li>";//ahora las instrucciones
-		poser+="<li><span class=\"caret\">Instrucciones</span>";
-		poser+="<ul class=\"nested\">";
+		poser+="<li><span class='caret'>Instrucciones</span>";
+		poser+="<ul class='nested'>";
 		poser+=instr;
 		poser+="</ul>";
 		poser+="</li>";
@@ -77,13 +77,13 @@ const instruccionesAPI = {
 	},
 
 	nuevoVal: function (tipo, nombre, valor) {
-		var p="<li><span class=\"caret\">Variable</span>";
-		p+="<ul class=\"nested\">";
+		var p="<li><span class='caret'>Variable</span>";
+		p+="<ul class='nested'>";
 		p+="<li>Tipo:"+tipo+"</li>";
 		p+="<li>Nombre:"+nombre+"</li>";
 
-		p+="<li><span class=\"caret\">Valor</span>";
-		p+="<ul class=\"nested\">";
+		p+="<li><span class='caret'>Valor</span>";
+		p+="<ul class='nested'>";
 		p+=valor;
 		p+="</ul>";
 		p+="</li>";
@@ -102,12 +102,12 @@ const instruccionesAPI = {
 		} else {
 			n = TIPO_INSTRUCCION.PRINTLN;
 		}
-		var p="<li><span class=\"caret\">PRINT</span>";
-		p+="<ul class=\"nested\">";
+		var p="<li><span class='caret'>PRINT</span>";
+		p+="<ul class='nested'>";
 		
 
-		p+="<li><span class=\"caret\">Valor</span>";
-		p+="<ul class=\"nested\">";
+		p+="<li><span class='caret'>Valor</span>";
+		p+="<ul class='nested'>";
 		p+=valores;
 		p+="</ul>";
 		p+="</li>";
@@ -120,18 +120,18 @@ const instruccionesAPI = {
 	},
 
 	nuevoWhile: function (exprLogica, instrucciones) {
-		var p="<li><span class=\"caret\"> WHILE </span>";
-		p+="<ul class=\"nested\">";
+		var p="<li><span class='caret'> WHILE </span>";
+		p+="<ul class='nested'>";
 		
 
-		p+="<li><span class=\"caret\">Valor-logico</span>";
-		p+="<ul class=\"nested\">";
+		p+="<li><span class='caret'>Valor-logico</span>";
+		p+="<ul class='nested'>";
 		p+=exprLogica;
 		p+="</ul>";
 		p+="</li>";
 
-		p+="<li><span class=\"caret\">Instrucciones</span>";
-		p+="<ul class=\"nested\">";
+		p+="<li><span class='caret'>Instrucciones</span>";
+		p+="<ul class='nested'>";
 		p+=instrucciones;
 		p+="</ul>";
 		p+="</li>";
@@ -143,18 +143,18 @@ const instruccionesAPI = {
 
 	},
 	nuevoDoWhile: function (exprLogica, instrucciones) {
-		var p="<li><span class=\"caret\"> DO-WHILE </span>";
-		p+="<ul class=\"nested\">";
+		var p="<li><span class='caret'> DO-WHILE </span>";
+		p+="<ul class='nested'>";
 		
 
-		p+="<li><span class=\"caret\">Valor-logico</span>";
-		p+="<ul class=\"nested\">";
+		p+="<li><span class='caret'>Valor-logico</span>";
+		p+="<ul class='nested'>";
 		p+=exprLogica;
 		p+="</ul>";
 		p+="</li>";
 
-		p+="<li><span class=\"caret\">Instrucciones</span>";
-		p+="<ul class=\"nested\">";
+		p+="<li><span class='caret'>Instrucciones</span>";
+		p+="<ul class='nested'>";
 		p+=instrucciones;
 		p+="</ul>";
 		p+="</li>";
@@ -167,18 +167,58 @@ const instruccionesAPI = {
 
 	nuevoFor: function (var_arr, expresionLogica, aumento, instrucciones) {
 
-		var p="<li><span class=\"caret\"> FOR </span>";
-		p+="<ul class=\"nested\">";
-		
+		var a = var_arr[0];
+		var b = var_arr[1];
 
-		p+="<li><span class=\"caret\">Valor-logico</span>";
-		p+="<ul class=\"nested\">";
+		var p="<li><span class='caret'> FOR </span>";
+		p+="<ul class='nested'>";
+
+		p+="<li>Variable: "+a+"</li>"
+
+		p+="<li><span class='caret'>Valor-variable</span>";
+		p+="<ul class='nested'>";
 		p+=exprLogica;
 		p+="</ul>";
 		p+="</li>";
 
-		p+="<li><span class=\"caret\">Instrucciones</span>";
-		p+="<ul class=\"nested\">";
+		p+="<li><span class='caret'>Valor-logico</span>";
+		p+="<ul class='nested'>";
+		p+=b;
+		p+="</ul>";
+		p+="</li>";
+
+		p+="<li><span class='caret'>Aumento</span>";
+		p+="<ul class='nested'>";
+		p+=aumento;
+		p+="</ul>";
+		p+="</li>";
+
+		p+="<li><span class='caret'>Instrucciones</span>";
+		p+="<ul class='nested'>";
+		p+=instrucciones;
+		p+="</ul>";
+		p+="</li>";
+		
+		p+="</ul>";
+		p+="</li>";
+
+		return p;
+	},
+
+	nuevoIf: function (expresionLogica, instrucciones) {
+
+		var p="<li><span class='caret'> IF </span>";
+		p+="<ul class='nested'>";
+		
+
+		p+="<li><span class='caret'>Valor-logico</span>";
+		p+="<ul class='nested'>";
+		p+=expresionLogica;
+		p+="</ul>";
+		p+="</li>";
+
+		p+="<li><span class='caret'>Instrucciones</span>";
+		p+="<ul class='nested'>";
 		p+=instrucciones;
 		p+="</ul>";
 		p+="</li>";
@@ -188,138 +228,284 @@ const instruccionesAPI = {
 
 		return p;
 
-
-
-		var a = var_arr[0];
-		var b = var_arr[1];
-		return {
-			tipo: TIPO_INSTRUCCION.FOR,
-			expresion: expresionLogica,
-			aumento: aumento,
-			variable: a,
-			valorVariable: b,
-			instrucciones: instrucciones
-		}
-	},
-
-	nuevoIf: function (expresionLogica, instrucciones) {
-		return {
-			tipo: TIPO_INSTRUCCION.IF,
-			expresion: expresionLogica,
-			instrucciones: instrucciones
-		}
 	},
 	nuevoElse: function (instrucciones) {
-		return {
-			tipo: TIPO_INSTRUCCION.ELSE,
-			instrucciones: instrucciones
-		}
+		var p="<li><span class='caret'> ELSE </span>";
+		p+="<ul class='nested'>";
+		
+
+		p+="<li><span class='caret'>Instrucciones</span>";
+		p+="<ul class='nested'>";
+		p+=instrucciones;
+		p+="</ul>";
+		p+="</li>";
+		
+		p+="</ul>";
+		p+="</li>";
+
+		return p;
 	},
 
 	nuevoElseIf: function (expresionLogica, instrx) {
-		return {
-			tipo: TIPO_INSTRUCCION.IF_ELSE,
-			expresion: expresionLogica,
-			intrucciones: instrx
-		}
+		var p="<li><span class='caret'> ELSE-IF </span>";
+		p+="<ul class='nested'>";
+		
+
+		p+="<li><span class='caret'>Valor-logico</span>";
+		p+="<ul class='nested'>";
+		p+=expresionLogica;
+		p+="</ul>";
+		p+="</li>";
+
+		p+="<li><span class='caret'>Instrucciones</span>";
+		p+="<ul class='nested'>";
+		p+=instrx;
+		p+="</ul>";
+		p+="</li>";
+		
+		p+="</ul>";
+		p+="</li>";
+
+		return p;
 	},
 
 	nuevoSwitch: function (varx, casos) {
-		return {
-			tipo: TIPO_INSTRUCCION.SWITCH,
-			variable: varx,
-			casos: casos
-		}
+
+		var p="<li><span class='caret'> SWITCH </span>";
+		p+="<ul class='nested'>";
+		
+
+		p+="<li><span class='caret'>Valor</span>";
+		p+="<ul class='nested'>";
+		p+=varx;
+		p+="</ul>";
+		p+="</li>";
+
+		p+="<li><span class='caret'>Casos</span>";
+		p+="<ul class='nested'>";
+		p+=casos;
+		p+="</ul>";
+		p+="</li>";
+		
+		p+="</ul>";
+		p+="</li>";
+
+		return p;
 	},
 
 	nuevoCaso: function (valor, instr) {
-		return {
-			tipo: TIPO_INSTRUCCION.CASE,
-			valor: valor,
-			instrucciones: instr
-		}
+
+		var p="<li><span class='caret'> CASO </span>";
+		p+="<ul class='nested'>";
+		
+
+		p+="<li><span class='caret'>Valor</span>";
+		p+="<ul class='nested'>";
+		p+=valor;
+		p+="</ul>";
+		p+="</li>";
+
+		p+="<li><span class='caret'>Instrucciones</span>";
+		p+="<ul class='nested'>";
+		p+=instr;
+		p+="</ul>";
+		p+="</li>";
+		
+		p+="</ul>";
+		p+="</li>";
+
+		return p;
+
 	},
 	nuevoDefault: function (instr) {
-		return {
-			tipo: TIPO_INSTRUCCION.DEFAULT,
-			instrucciones: instr
-		}
+		var p="<li><span class='caret'> DEFAULT </span>";
+		p+="<ul class='nested'>";
+		
+
+		p+="<li><span class='caret'>Instrucciones</span>";
+		p+="<ul class='nested'>";
+		p+=instr;
+		p+="</ul>";
+		p+="</li>";
+		
+		p+="</ul>";
+		p+="</li>";
+
+		return p;
 	},
 
 	nuevoMetodo: function (nombre, params, instrx) {
-		return {
-			tipo: TIPO_INSTRUCCION.METODO,
-			nombre: nombre,
-			parametros: params,
-			instrucciones: instrx
-		}
+
+		var p="<li><span class='caret'> METODO </span>";
+		p+="<ul class='nested'>";
+
+		p+="<li>Nombre: "+nombre+"</li>"
+
+		p+="<li><span class='caret'>Parametros</span>";
+		p+="<ul class='nested'>";
+		p+=params; //lista ver
+		p+="</ul>";
+		p+="</li>";
+
+		p+="<li><span class='caret'>Instrucciones</span>";
+		p+="<ul class='nested'>";
+		p+=instrx;
+		p+="</ul>";
+		p+="</li>";
+		
+		p+="</ul>";
+		p+="</li>";
+
+		return p;
+
 	},
-	nuevoFuncion: function (nombre, params, tipo, intrx) {
-		return {
-			tipo: TIPO_INSTRUCCION.FUNCION,
-			nombre: nombre,
-			parametros: params,
-			tipo: tipo,
-			instrucciones: instrx
-		}
+	nuevoFuncion: function (nombre, params, tipo, instrx) {
+		var p="<li><span class='caret'> FUNCION </span>";
+		p+="<ul class='nested'>";
+
+		p+="<li>Nombre: "+nombre+"</li>"
+		p+="<li>Tipo: "+tipo+"</li>"
+
+		p+="<li><span class='caret'>Parametros</span>";
+		p+="<ul class='nested'>";
+		p+=params; //lista ver
+		p+="</ul>";
+		p+="</li>";
+
+		p+="<li><span class='caret'>Instrucciones</span>";
+		p+="<ul class='nested'>";
+		p+=instrx;
+		p+="</ul>";
+		p+="</li>";
+		
+		p+="</ul>";
+		p+="</li>";
+
+		return p;
 	},
 	nuevollamada: function (nombre, params) {
-		return {
-			tipo: TIPO_INSTRUCCION.LLAMADA_F,
-			nombre: nombre,
-			parametros: params
-		}
+		
+		var p="<li><span class='caret'> LLAMADA-FUNCION </span>";
+		p+="<ul class='nested'>";
+
+		p+="<li>Nombre: "+nombre+"</li>"
+
+		p+="<li><span class='caret'>Parametros</span>";
+		p+="<ul class='nested'>";
+		p+=params; //VER QUE PASA
+		p+="</ul>";
+		p+="</li>";
+		
+		p+="</ul>";
+		p+="</li>";
+
+		return p;
+
 	},
 	nuevoAsig: function (nombre, valores) {
-		return {
-			tipo: TIPO_INSTRUCCION.ASIGNACION,
-			nombre: nombre,
-			valores: valores
-		}
+		var p="<li><span class='caret'> Asignacion </span>";
+		p+="<ul class='nested'>";
+
+		p+="<li>Nombre: "+nombre+"</li>"
+
+		p+="<li><span class='caret'>Valores</span>";
+		p+="<ul class='nested'>";
+		p+=valores;
+		p+="</ul>";
+		p+="</li>";
+		
+		p+="</ul>";
+		p+="</li>";
+
+		return p;
 	},
 	nuevoBreak: function () {
 		//no recibe parametros
-		return {
-			tipo: TIPO_INSTRUCCION.BREAK
-		}
+		var n = "<li> BREAK </li>"
+		return n;
+		
 	},
 	nuevoContinue: function () {
 		//no recibe parametros
-		return {
-			tipo: TIPO_INSTRUCCION.CONTINUE
-		}
+		var n = "<li> CONTINUE </li>"
+		return n;
 	},
 	nuevoReturn: function (valores) {
-		return {
-			tipo: TIPO_INSTRUCCION.RETURN,
-			valores: valores
-		}
+		var p="<li><span class='caret'> RETURN </span>";
+		p+="<ul class='nested'>";
+
+		p+="<li><span class='caret'>Valores</span>";
+		p+="<ul class='nested'>";
+		p+=valores;
+		p+="</ul>";
+		p+="</li>";
+		
+		p+="</ul>";
+		p+="</li>";
+
+		return p;
 	},
-	nuevoValorAsg: function (tipo, valor) {
-		return {
-			tipo: tipo,
-			valor: valor
-		}
+	nuevoValorAsg: function (tipo, valor) {//ultima derivacion
+		var p="<li><span class='caret'> "+tipo+" </span>";
+		p+="<ul class='nested'>";
+		p+="<li>"+valor+"</li>"
+		p+="</ul>";
+		p+="</li>";
+
+		return p;
 	},
 	nuevoParentesis: function (val) {
-		return {
-			tipo: TIPO_INSTRUCCION.AGRUPACION,
-			valor: val
-		}
+
+		var p="<li><span class='caret'> AGRUPACION </span>";
+		p+="<ul class='nested'>";
+
+		p+="<li><span class='caret'>Valores</span>";
+		p+="<ul class='nested'>";
+		p+=val;
+		p+="</ul>";
+		p+="</li>";
+		
+		p+="</ul>";
+		p+="</li>";
 	},
 	nuevaOpr: function (Izq, Der, tipo) {
-		return {
-			tipo: tipo,
-			Izq: Izq,
-			Der: Der,
 
-		}
+		var p="<li><span class='caret'> OPERACION </span>";
+		p+="<ul class='nested'>";
+		p+="<li>"+tipo+"</li>"
+		p+="<li><span class='caret'>Valore-izq</span>";
+		p+="<ul class='nested'>";
+		p+=Izq;
+		p+="</ul>";
+		p+="</li>";
+
+
+		p+="<li><span class='caret'>Valore-der</span>";
+		p+="<ul class='nested'>";
+		p+=Der;
+		p+="</ul>";
+		p+="</li>";
+		
+		p+="</ul>";
+		p+="</li>";
+
+		return p;
 	},
 	nuevaUnar: function (tipo, valor) {
-		return {
-			tipo: tipo,
-			valor: valor
-		}
+		var p="<li><span class='caret'> OPERACION Unaria</span>";
+		p+="<ul class='nested'>";
+		p+="<li>"+tipo+"</li>"
+	
+		p+="<li><span class='caret'>Valor</span>";
+		p+="<ul class='nested'>";
+		p+=valor;
+		p+="</ul>";
+		p+="</li>";
+		
+		p+="</ul>";
+		p+="</li>";
+
+		return p;
 	}
 
 }

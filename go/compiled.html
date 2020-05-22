@@ -4,10 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js" ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular-sanitize.js"></script>
     <link href="/css/w3.css" rel="stylesheet" type="text/css" media="all">
     <script src="/js/app.js"></script>
     <title>JavaCopyDetector</title>
+
+
 </head>
 
 <body>
@@ -31,17 +34,9 @@
     <div class="w3-content w3-padding-48" ng-app="myApp" ng-controller="result_set">
         <h2>Resultado de la compilacion</h2>
 
-        <div class="w3-row">
 
-            <a href="javascript:void(0)" onclick="openCity(event, 'Paris');">
-                <div class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding">Errores</div>
-            </a>
-            <a href="javascript:void(0)" onclick="openCity(event, 'Tokyo');">
-                <div class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding">Resultados</div>
-            </a>
-        </div>
 
-        <div id="Paris" class="w3-container city" style="display:none" >
+        <div id="Paris" class="w3-container city">
             <br>
             <table class="w3-table w3-striped w3-border">
                 <tr>
@@ -64,44 +59,29 @@
 
         </div>
 
-        <div id="Tokyo" class="w3-container city" style="display:none">
-            <div>
-                <h2>Variables copia</h2>
-                <table class="w3-table w3-striped w3-border">
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Tipo</th>
-                    </tr>
-
-
-                </table>
-            </div>
-
+        <div>
+            <h2>AST</h2>
             <br>
-            <br>
-            <div>
-                <h2>AST</h2>
-                <div class="w3-code">
-                    <h2>hi</h2>
-                </div>
-            </div>
+            <ul id="myUL" ng-bind-html="myList">
+
+            </ul>
         </div>
+
+
     </div>
 
 
+
+
     <script>
-        function openCity(evt, cityName) {
-            var i, x, tablinks;
-            x = document.getElementsByClassName("city");
-            for (i = 0; i < x.length; i++) {
-                x[i].style.display = "none";
-            }
-            tablinks = document.getElementsByClassName("tablink");
-            for (i = 0; i < x.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" w3-border-red", "");
-            }
-            document.getElementById(cityName).style.display = "block";
-            evt.currentTarget.firstElementChild.className += " w3-border-red";
+        var toggler = document.getElementsByClassName("caret");
+        var i;
+
+        for (i = 0; i < toggler.length; i++) {
+            toggler[i].addEventListener("click", function () {
+                this.parentElement.querySelector(".nested").classList.toggle("active");
+                this.classList.toggle("caret-down");
+            });
         }
     </script>
 

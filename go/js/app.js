@@ -1,5 +1,5 @@
 //this is angular js app to send data between frontend(go) and backend(nodejs)
-var app = angular.module('myApp', []);
+var app = angular.module('myApp', ['ngSanitize']);
 app.controller("compile", function ($scope, $http) {
     $scope.new_data = function () {
         
@@ -18,6 +18,6 @@ app.controller('result_set', function ($scope, $http) {
             //el arbol ya viene renderizado
             //se renderizan los errores y las variables
             $scope.errores=response.data.errores;
-            
+            $scope.myList=response.data.ast;
         });
 });
