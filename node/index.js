@@ -74,11 +74,16 @@ function compile(e1, e2) {
     for (let i = 0; i < resultado1[0].length; i++) {
         ast += resultado1[0][i];
     }
-    ast = ast.replace(">,<", "><");
-    ast = ast.replace(">,<", "><");
+    
+    for (let i = 0; i < ast.length; i++) {
+        ast = ast.replace(">,<", "><");
+    }
     let er=[];
     er=resultado1[1];
-
+    
+    for (let i = 0; i < unix.length; i++) {
+        unix=unix.replace("\t","\s\s\s\s");
+    }
     let r=[];
     r=unix.split("\n");
 

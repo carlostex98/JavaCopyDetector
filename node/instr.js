@@ -59,8 +59,20 @@ const TIPO_INSTRUCCION = {
 // devuelva un arbol en html
 const instruccionesAPI = {
 	nuevoImport: function (valor) {//ok
-		var n = "<li> IMPORT - " + valor + "</li>"
-		return n;
+		var p="<li><span class='caret'>IMPORT</span>";
+		p+="<ul class='nested'>";
+		
+
+		p+="<li><span class='caret'>Valor</span>";
+		p+="<ul class='nested'>";
+		p+=valor;
+		p+="</ul>";
+		p+="</li>";
+
+		
+		p+="</ul>";
+		p+="</li>";
+		return p;
 	},
 
 	nuevoClass: function (valor, instr) {//ok
@@ -468,6 +480,7 @@ const instruccionesAPI = {
 		
 		p+="</ul>";
 		p+="</li>";
+		return p;
 	},
 	nuevaOpr: function (Izq, Der, tipo) {
 

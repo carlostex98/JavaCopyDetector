@@ -4,20 +4,10 @@ app.controller("compile", function($scope, $http) {
     $scope.new_data = function() {
 
         $http.post('http://localhost:3000/onfer/', $scope.formdata).then(function(response) {
-            alert(response.data);
+            
             //redirect
+            location.replace("http://localhost:8000/compiled");
         });
     }
 });
 
-app.controller('result_set', ['$scope','$sce', '$http', function ($scope,$sce,$http) {
-    $http.get("http://localhost:3000/fmx/")
-        .then(function(response) {
-            //ponemos la onda jaja
-            //el arbol ya viene renderizado
-            //se renderizan los errores y las variables
-            $scope.errores = response.data.errores;
-            $scope.myList = $sce.trustAsHtml(response.data.ast);
-
-        });
-}]);

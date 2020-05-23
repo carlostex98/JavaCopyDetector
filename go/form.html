@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js" ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular-sanitize.js"></script>
     <link href="/css/w3.css" rel="stylesheet" type="text/css" media="all">
     <script src="/js/app.js"></script>
@@ -15,10 +15,10 @@
 <body>
     <div class="w3-top">
         <div class="w3-bar w3-white w3-wide w3-padding w3-card">
-            <a href="" class="w3-bar-item w3-button"> <b>Java</b></a>
+            <a href="http://localhost:8000" class="w3-bar-item w3-button"> <b>Java</b></a>
             <!-- Float links to the right. Hide them on small screens -->
             <div class="w3-right w3-hide-small">
-                
+
                 <a href="/doc" class="w3-bar-item w3-button">Documentacion</a>
                 <a href="https://github.com/carlostex98/c-py" class="w3-bar-item w3-button">Github</a>
             </div>
@@ -37,26 +37,54 @@
 
             <form class="w3-container" accept-charset="UTF-8">
                 <p>
-                    <label class=""><b>El codigo original</b></label>
-
-                    <textarea class="w3-input w3-border w3-light-gray" style="height: 600px;" name="texto" id="texto" ng-model="formdata.file1"  ></textarea>
+                    <label class=""><b>El codigo original</b></label><br>
+                    <input type='file' accept='text/plain' onchange='openFile1(event)'><br>
+                    <textarea class="w3-input w3-border w3-light-gray" style="height: 400px;" id="texto1"
+                        ng-model="formdata.file1"></textarea>
                 </p>
                 <p>
-                    <label class=""><b>El codigo a evaluar</b></label>
-
-                    <textarea class="w3-input w3-border w3-light-gray" style="height: 600px;" name="texto" id="texto" ng-model="formdata.file2"></textarea>
+                    <label class=""><b>El codigo a evaluar</b></label><br>
+                    <input type='file' accept='text/plain' onchange='openFile2(event)'><br>
+                    <textarea class="w3-input w3-border w3-light-gray" style="height: 400px;" id="texto2"
+                        ng-model="formdata.file2"></textarea>
                 </p>
 
                 <p>
                     <button class="w3-btn w3-teal" ng-click="new_data()">Compilar</button>
                 </p>
             </form>
-            
-    
-    
+
+
+
         </div>
     </div>
-    
+    <script>
+        var openFile1 = function (event) {
+            var input = event.target;
+
+            var reader = new FileReader();
+            reader.onload = function () {
+                var text = reader.result;
+                var node = document.getElementById('texto1');
+                node.value = text;
+            };
+            reader.readAsText(input.files[0]);
+        };
+    </script>
+    <script>
+        var openFile2 = function (event) {
+            var input = event.target;
+
+            var reader = new FileReader();
+            reader.onload = function () {
+                var text = reader.result;
+                var node = document.getElementById('texto2');
+                node.value = text;
+            };
+            reader.readAsText(input.files[0]);
+        };
+    </script>
+
 </body>
 
 </html>

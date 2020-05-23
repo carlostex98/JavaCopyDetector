@@ -59,7 +59,7 @@
 <body>
     <div class="w3-top">
         <div class="w3-bar w3-white w3-wide w3-padding w3-card">
-            <a href="" class="w3-bar-item w3-button"><b>C#</b> / <b>Python</b></a>
+            <a href="http://localhost:8000" class="w3-bar-item w3-button"> <b>Java</b></a>
             <!-- Float links to the right. Hide them on small screens -->
             <div class="w3-right w3-hide-small">
 
@@ -78,8 +78,9 @@
         <h2>Resultado de la compilacion</h2>
 
 
-
-        <div id="Paris" class="w3-container city">
+        <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-black w3-left-align">
+            Errores</button>
+        <div id="Demo1" class="w3-hide w3-border">
             <br>
             <table class="w3-table w3-striped w3-border">
                 <tr>
@@ -91,26 +92,29 @@
                 </tr>
                 {{range .errores}}
                 <tr>
-                    
+
                     <td>{{.id}}</td>
                     <td>{{.tipo}}</td>
                     <td>{{.linea}}</td>
                     <td>{{.columna}}</td>
                     <td>{{.descripcion}}</td>
-                    
+
                 </tr>
                 {{end}}
             </table>
-
+            <br>
+            <br>
         </div>
-        <br>
-        <div class="w3-container city">
+
+        <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-black w3-left-align">
+            Variables copia</button>
+        <div id="Demo2" class="w3-hide w3-border">
             <br>
             <table class="w3-table w3-striped w3-border">
                 <tr>
                     <th>Tipo</th>
                     <th>Nombre</th>
-                    
+
                 </tr>
                 {{range .copia}}
                 <tr>
@@ -119,36 +123,67 @@
                 </tr>
                 {{end}}
             </table>
-
+            <br>
+            <br>
         </div>
 
-
-
-        <div>
-            <h2>AST</h2>
+        <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-black w3-left-align">
+            AST</button>
+        <div id="Demo3" class="w3-hide w3-border">
             <br>
             <ul id="myUL">
                 {{.ast}}
             </ul>
-            <script>
-                var toggler = document.getElementsByClassName("caret");
-                var i;
-        
-                for (i = 0; i < toggler.length; i++) {
-                    toggler[i].addEventListener("click", function () {
-                        this.parentElement.querySelector(".nested").classList.toggle("active");
-                        this.classList.toggle("caret-down");
-                    });
-                }
-            </script>
+            <br>
+            <br>
         </div>
+
+    </div>
+
 
 
     </div>
 
 
-    
-    
+
+    </div>
+
+    <br>
+
+
+
+
+
+
+
+    <script>
+        var toggler = document.getElementsByClassName("caret");
+        var i;
+
+        for (i = 0; i < toggler.length; i++) {
+            toggler[i].addEventListener("click", function () {
+                this.parentElement.querySelector(".nested").classList.toggle("active");
+                this.classList.toggle("caret-down");
+            });
+        }
+    </script>
+
+
+
+    </div>
+    <script>
+        function myFunction(id) {
+            var x = document.getElementById(id);
+            if (x.className.indexOf("w3-show") == -1) {
+                x.className += " w3-show";
+            } else {
+                x.className = x.className.replace(" w3-show", "");
+            }
+        }
+    </script>
+
+
+
 </body>
 
 </html>

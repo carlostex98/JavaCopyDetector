@@ -109,7 +109,7 @@ instrucciones
 
 
 instr_main
-	: IMPORT IDENTIFICADOR PUNTO_C 	{ $$ = instruccionesAPI.nuevoImport($2); } 
+	: IMPORT asignacion PUNTO_C 	{ $$ = instruccionesAPI.nuevoImport($2); } 
     | CLASS IDENTIFICADOR LLAVE_A instr_methods LLAVE_C 	{ $$ = instruccionesAPI.nuevoClass($2,$4); in_var("Class", $2);} 	
 	| error LLAVE_C{  in_err("Sintactico",this._$.first_line,this._$.first_column,yytext); }
 ;
@@ -225,7 +225,7 @@ valx
     | TRUE {$$=instruccionesAPI.nuevoValorAsg(TIPO_VAL.IDENTIFICADOR,$1);}
     | FALSE {$$=instruccionesAPI.nuevoValorAsg(TIPO_VAL.IDENTIFICADOR,$1);}
     | CADENA {$$=instruccionesAPI.nuevoValorAsg(TIPO_VAL.CADENA,$1);}
-    | PAR_A valx PAR_C {$$=instruccionesAPI.nuevoParentesis($2);}
+    | PAR_A asignacion PAR_C {$$=instruccionesAPI.nuevoParentesis($2);}
     | unar_op   {$$=$1;}
 ;
 
