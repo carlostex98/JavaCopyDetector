@@ -51,6 +51,7 @@
 "System"                {return 'SYSTEM';}
 "out"                   {return 'OUT';}
 "println"               {return 'PRINTLN';}
+"main"                  {return 'MAIN';}
 "print"                 {return 'PRINT';}
 "continue"              {return 'CONTINUE';}
 "+"                     {return 'MAS';}
@@ -121,6 +122,7 @@ instr_methods
 instr_meth
     : VOID IDENTIFICADOR PAR_A params PAR_C LLAVE_A instr_general LLAVE_C {$$=instruccionesAPI.nuevoMetodo($2,$4,$7); in_var("Void", $2);}
     | typo_var IDENTIFICADOR PAR_A params PAR_C LLAVE_A instr_general LLAVE_C {$$=instruccionesAPI.nuevoFuncion($2,$4,$1,$7); in_var("Funcion", $2);}
+    | VOID MAIN PAR_A PAR_C LLAVE_A instr_general LLAVE_C {$$=instruccionesAPI.nuevoMetodo($2,"vacio",$6); in_var("main", "main");}
     | error LLAVE_C{  in_err("Sintactico",this._$.first_line,this._$.first_column,yytext); }
 ;
 
