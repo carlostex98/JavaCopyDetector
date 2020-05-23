@@ -14,6 +14,12 @@ func index(w http.ResponseWriter, r *http.Request) {
 
 	t.Execute(w, "")
 }
+func documetos(w http.ResponseWriter, r *http.Request) {
+
+	t := template.Must(template.New("docs.html").ParseFiles("docs.html"))
+
+	t.Execute(w, "")
+}
 
 func segundo(w http.ResponseWriter, r *http.Request) {
 	t := template.Must(template.New("compiled.html").ParseFiles("compiled.html"))
@@ -38,9 +44,11 @@ func segundo(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("css/"))))
 	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("js/"))))
+	http.Handle("/doc/", http.StripPrefix("/doc/", http.FileServer(http.Dir("doc/"))))
 
 	http.HandleFunc("/", index)
 	http.HandleFunc("/compiled", segundo)
+	http.HandleFunc("/docum", documetos)
 
 	fmt.Printf("Servidor escuchando en: http://localhost:8000/")
 	http.ListenAndServe(":8000", nil)
