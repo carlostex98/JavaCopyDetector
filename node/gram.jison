@@ -3,6 +3,7 @@
 	//nuestras estructuras
     let errores =[];
     let nombres=[];
+    
     function in_err(tipo, lin, col, decrip){
         var c={id:errores.length, tipo:tipo, linea:lin, columna:col, descripcion:decrip};
         errores.push(c);
@@ -13,7 +14,8 @@
     }
 
     function clear_vars(){
-        errores=nombre=[];
+        errores=[];
+        nombres=[];
     }
 %}
 
@@ -25,7 +27,7 @@
 %%
 \s+                      {}                       
 "//".*	                  {}                      
-[/][*].*[*][/]            {}
+[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]	       {}
 "class"                 {return 'CLASS';}
 "import"                {return 'IMPORT';}
 "String"                {return 'STRING';}
@@ -71,6 +73,7 @@
 "="                     {return 'IGUAL';}
 "=="                    {return 'IGUAL_IGUAL';}
 "!"                     {return 'NOT';}
+'%'                     {return 'MOD';}
 "!="                    {return 'NO_IGUAL';}
 ','                     {return 'COMA'};
 "&&"                    {return 'AND';}
@@ -108,7 +111,7 @@ instrucciones
 instr_main
 	: IMPORT IDENTIFICADOR PUNTO_C 	{ $$ = instruccionesAPI.nuevoImport($2); } 
     | CLASS IDENTIFICADOR LLAVE_A instr_methods LLAVE_C 	{ $$ = instruccionesAPI.nuevoClass($2,$4); in_var("Class", $2);} 	
-	| error {  in_err("Sintactico",this._$.first_line,this._$.first_column,yytext); }
+	| error LLAVE_C{  in_err("Sintactico",this._$.first_line,this._$.first_column,yytext); }
 ;
 
 instr_methods
@@ -118,7 +121,7 @@ instr_methods
 instr_meth
     : VOID IDENTIFICADOR PAR_A params PAR_C LLAVE_A instr_general LLAVE_C {$$=instruccionesAPI.nuevoMetodo($2,$4,$7); in_var("Void", $2);}
     | typo_var IDENTIFICADOR PAR_A params PAR_C LLAVE_A instr_general LLAVE_C {$$=instruccionesAPI.nuevoFuncion($2,$4,$1,$7); in_var("Funcion", $2);}
-    | error {  in_err("Sintactico",this._$.first_line,this._$.first_column,yytext); }
+    | error LLAVE_C{  in_err("Sintactico",this._$.first_line,this._$.first_column,yytext); }
 ;
 
 
@@ -135,8 +138,8 @@ instr
     | DO LLAVE_A instr_general LLAVE_C WHILE PAR_A asignacion PAR_C PUNTO_C {$$=instruccionesAPI.nuevoDoWhile($7,$3);}
     | SYSTEM PUNTO OUT PUNTO otro_print PAR_A asignacion PAR_C PUNTO_C  {$$=instruccionesAPI.nuevoPrint($5,$7);}
     | FOR PAR_A var_for PUNTO_C asignacion PUNTO_C asignacion_icr PAR_C LLAVE_A instr_general LLAVE_C {$$=instruccionesAPI.nuevoFor($3,$5,$7,$10);}
-    | typo_var lista_v IGUAL asignacion PUNTO_C {$$=instruccionesAPI.nuevoVal($1,$2,$4); in_var("Variable", $2);}
-    | typo_var lista_v PUNTO_C {$$=instruccionesAPI.nuevoVal($1,$2,""); in_var("Variable", $2); }
+    | typo_var lista_v IGUAL asignacion PUNTO_C {$$=instruccionesAPI.nuevoVal($1,$2,$4); }
+    | typo_var lista_v PUNTO_C {$$=instruccionesAPI.nuevoVal($1,$2,"");  }
     | BREAK PUNTO_C {$$=instruccionesAPI.nuevoBreak();}
     | RETURN asignacion_ret PUNTO_C {$$=instruccionesAPI.nuevoReturn($2);}
     | IDENTIFICADOR sms PUNTO_C {$$=instruccionesAPI.nuevaUnar($2,$1);}
@@ -144,7 +147,7 @@ instr
     | IDENTIFICADOR IGUAL asignacion PUNTO_C    {$$=instruccionesAPI.nuevoAsig($1,$3);}
     | SWITCH PAR_A asignacion PAR_C LLAVE_A sw_op LLAVE_C {$$=instruccionesAPI.nuevoSwitch($3,$6);}
     | CONTINUE PUNTO_C {$$=instruccionesAPI.nuevoContinue();}
-    | error {  in_err("Sintactico",this._$.first_line,this._$.first_column,yytext); }
+    | error PUNTO_C{  in_err("Sintactico",this._$.first_line,this._$.first_column,yytext); }
 ;
 
 
@@ -155,6 +158,7 @@ asignacion_ret
 
 asignacion_icr
     : IDENTIFICADOR sms {$$=[$1,$2];}
+
 ;
 
 sms
@@ -163,8 +167,8 @@ sms
 ;
 
 lista_v
-    :lista_v COMA IDENTIFICADOR {$1.push($3); $$=$1;}
-    | IDENTIFICADOR {$$=[$1];}
+    :lista_v COMA IDENTIFICADOR {$1.push($3); in_var("Variable", $3); }
+    | IDENTIFICADOR {$$=[$1]; in_var("Variable", $1);}
 ;
 
 sw_op
@@ -244,4 +248,5 @@ symb
     | MAYOR_I {$$=TIPO_OPERACION.MAYOR_IGUAL;}
     | MENOR_I {$$=TIPO_OPERACION.MENOR_IGUAL;}
     | IGUAL_IGUAL {$$=TIPO_OPERACION.DOBLE_IGUAL;}
+    | MOD {$$=TIPO_OPERACION.MODULO}
 ;

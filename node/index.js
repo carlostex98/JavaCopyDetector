@@ -22,12 +22,15 @@ app.listen(app.get('port'), function () {
 
 });
 
+var unix="";
 app.post('/onfer/', function (req, res) {
     var x = req.body.file1;
     var y = req.body.file2;
+    unix=x;
     compile(x, y);
     res.set('Access-Control-Allow-Origin', '*');
     res.status(200).json(result);
+
 });
 
 app.get('/fmx', function (req, res) {
@@ -69,20 +72,36 @@ function compile(e1, e2) {
     //generate ast jajaj
     ast = "";
     for (let i = 0; i < resultado1[0].length; i++) {
-        ast+=resultado1[0][i];
+        ast += resultado1[0][i];
     }
-    ast=ast.replace(">,<", "><");
-    result = { errores: resultado1[1], copia: null, ast: ast };
+    ast = ast.replace(">,<", "><");
+    ast = ast.replace(">,<", "><");
+    let er=[];
+    er=resultado1[1];
+
+    let r=[];
+    r=unix.split("\n");
+
+    for (let i = 0; i < er.length; i++) {
+        var ch=r[er[i].linea - 1];
+        var t=ch.substr(er[i].columna-1);
+        er[i].descripcion=t;
+    }
+    result = { errores: resultado1[1], copia: calc_repetidos(resultado1[2], resultado2[2]), ast: ast };
 }
 
 
 function calc_repetidos(original, copia) {
     let n = [];
+
     for (let i = 0; i < original.length; i++) {
-        if (copia.includes(original[i])) {
-            n.push(original[i]);
+        for (let j = 0; j < copia.length; j++) {
+            if (original[i].nombre == copia[j].nombre && original[i].tipo == copia[j].tipo) {
+                n.push(original[i]);
+            }
         }
     }
+
     return n;
 }
 

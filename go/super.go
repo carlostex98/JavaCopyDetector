@@ -1,20 +1,38 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"html/template"
+	"io/ioutil"
 	"net/http"
 )
 
 func index(w http.ResponseWriter, r *http.Request) {
 
 	t := template.Must(template.ParseFiles("form.html")).Delims("<<", ">>")
+
 	t.Execute(w, "")
 }
 
 func segundo(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.New("compiled.html").Delims("<<", ">>").ParseFiles("compiled.html"))
-	t.Execute(w, "")
+	t := template.Must(template.New("compiled.html").ParseFiles("compiled.html"))
+	response, err := http.Get("http://localhost:3000/fmx")
+	if err != nil {
+		fmt.Println("error")
+	} else {
+		data, _ := ioutil.ReadAll(response.Body)
+		m := map[string]interface{}{}
+		f := json.Unmarshal([]byte(string(data)), &m)
+		if f != nil {
+
+		}
+		var ast = m["ast"]
+		m["ast"] = template.HTML(ast.(string))
+		t.ExecuteTemplate(w, "T", m)
+
+	}
+
 }
 
 func main() {

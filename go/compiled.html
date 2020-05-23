@@ -1,11 +1,10 @@
+{{define "T"}}
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular-sanitize.js"></script>
     <link href="/css/w3.css" rel="stylesheet" type="text/css" media="all">
 
     <title>JavaCopyDetector</title>
@@ -14,12 +13,12 @@
         #myUL {
             list-style-type: none;
         }
-        
+
         #myUL {
             margin: 0;
             padding: 0;
         }
-        
+
         .caret {
             cursor: pointer;
             -webkit-user-select: none;
@@ -30,14 +29,14 @@
             /* IE 10+ */
             user-select: none;
         }
-        
+
         .caret::before {
             content: "\25B6";
             color: black;
             display: inline-block;
             margin-right: 6px;
         }
-        
+
         .caret-down::before {
             -ms-transform: rotate(90deg);
             /* IE 9 */
@@ -45,11 +44,11 @@
             /* Safari */
             transform: rotate(90deg);
         }
-        
+
         .nested {
             display: none;
         }
-        
+
         .active {
             display: block;
         }
@@ -90,32 +89,67 @@
                     <th>Columna</th>
                     <th>Descripcion</th>
                 </tr>
-
-                <tr ng-repeat="x in errores">
-                    <td>{{ x.id }}</td>
-                    <td>{{ x.tipo }}</td>
-                    <td>{{ x.linea }}</td>
-                    <td>{{ x.columna }}</td>
-                    <td>{{ x.descripcion }}</td>
+                {{range .errores}}
+                <tr>
+                    
+                    <td>{{.id}}</td>
+                    <td>{{.tipo}}</td>
+                    <td>{{.linea}}</td>
+                    <td>{{.columna}}</td>
+                    <td>{{.descripcion}}</td>
+                    
                 </tr>
+                {{end}}
+            </table>
 
+        </div>
+        <br>
+        <div class="w3-container city">
+            <br>
+            <table class="w3-table w3-striped w3-border">
+                <tr>
+                    <th>Tipo</th>
+                    <th>Nombre</th>
+                    
+                </tr>
+                {{range .copia}}
+                <tr>
+                    <td>{{.tipo}}</td>
+                    <td>{{.nombre}}</td>
+                </tr>
+                {{end}}
             </table>
 
         </div>
 
+
+
         <div>
             <h2>AST</h2>
             <br>
-            <ul ng-bind-html-unsafe="myList" id="myUL">
-
+            <ul id="myUL">
+                {{.ast}}
             </ul>
+            <script>
+                var toggler = document.getElementsByClassName("caret");
+                var i;
+        
+                for (i = 0; i < toggler.length; i++) {
+                    toggler[i].addEventListener("click", function () {
+                        this.parentElement.querySelector(".nested").classList.toggle("active");
+                        this.classList.toggle("caret-down");
+                    });
+                }
+            </script>
         </div>
 
 
     </div>
 
 
-    <script src="/js/app.js"></script>
+    
+    
 </body>
 
 </html>
+{{end}}

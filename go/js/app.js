@@ -10,15 +10,14 @@ app.controller("compile", function($scope, $http) {
     }
 });
 
-app.controller('result_set', function($scope, $http) {
+app.controller('result_set', ['$scope','$sce', '$http', function ($scope,$sce,$http) {
     $http.get("http://localhost:3000/fmx/")
         .then(function(response) {
             //ponemos la onda jaja
             //el arbol ya viene renderizado
             //se renderizan los errores y las variables
             $scope.errores = response.data.errores;
-            $scope.myList = response.data.ast;
-
+            $scope.myList = $sce.trustAsHtml(response.data.ast);
 
         });
-});
+}]);
